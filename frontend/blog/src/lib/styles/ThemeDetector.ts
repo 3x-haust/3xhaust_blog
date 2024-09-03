@@ -1,24 +1,24 @@
 'use client'
 
 import { useEffect } from 'react'
-import useDarkModeState from '../stores/darkmode'
+import useColorModeState from '../stores/colorMode'
 
 const ThemeDetector = () => {
-  const { setIsDark } = useDarkModeState()
+  const { setColorMode } = useColorModeState()
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     
     const handleChange = (e: MediaQueryListEvent) => {
-      setIsDark(e.matches)
+      setColorMode(e.matches ? 'dark' : 'light')
     }
 
-    setIsDark(mediaQuery.matches)
+    setColorMode(mediaQuery.matches ? 'dark' : 'light')
 
     mediaQuery.addListener(handleChange)
 
     return () => mediaQuery.removeListener(handleChange)
-  }, [setIsDark])
+  }, [setColorMode])
 
   return null
 }

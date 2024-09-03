@@ -1,41 +1,13 @@
-'use client'
+import StyledComponentsRegistry from '../components/common/StyledComponentsRegistry';
+import { Providers } from '../components/common/Providers';
 
-import { GlobalStyle } from '../styles/globalStyle';
-import Header from './Header';
-import StyledComponentsRegistry from './registry';
-import { ThemeProvider } from 'styled-components'
-import useDarkModeState from '../stores/darkmode'
-import ThemeDetector from '../util/ThemeDetector'
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const { isDark } = useDarkModeState()
-
-  const theme = {
-    colors: {
-      background: isDark ? 'rgb(32, 33, 37)' : 'white',
-      text: isDark ? 'white' : 'black',
-    },
-  }
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <ThemeProvider theme={theme}>
-          <StyledComponentsRegistry>
-            <ThemeDetector />
-            <GlobalStyle />
-            <header>
-              <Header />
-            </header>
-            <main>
-              {children}
-            </main>
-          </StyledComponentsRegistry>
-        </ThemeProvider>
+        <StyledComponentsRegistry>
+          <Providers>{children}</Providers>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
