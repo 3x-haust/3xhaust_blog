@@ -14,6 +14,13 @@ const Nav = styled.nav`
   align-items: center;
   border-bottom: .0625rem solid var(--color-text);
   padding-left: 1.25rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(var(--color-background), 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 10px;
 `;
 
 const NavMenu = styled.ul`
@@ -41,6 +48,9 @@ const Logo = styled.h1`
   font-style: italic;
   color: var(--color-text);
   user-select: none;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export default function Header() {
