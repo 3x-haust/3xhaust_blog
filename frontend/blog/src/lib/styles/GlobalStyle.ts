@@ -8,8 +8,12 @@ export const GlobalStyle = createGlobalStyle`
     --color-background: #ffffff;
     --color-card-text: #ffffff;
     --color-card-background: #2B2B2B;
-    --color-card-shadow: rgba(0, 0, 0, 0.1);
+    --color-card-shadow1: #191919;
+    --color-card-shadow2: #292929;
+    --color-card-border: rgba(0, 0, 0, 0.1);
     --color-notfound-bar: rgba(0, 0, 0, 0.3);
+    --color-sidebar: rgba(0, 0, 0, 0.4);
+    --color-sidebar-text: #ACACAC;
   }
 
   [data-theme="dark"] {
@@ -17,8 +21,13 @@ export const GlobalStyle = createGlobalStyle`
     --color-background: #202125;
     --color-card-text: #ffffff;
     --color-card-background: rgb(69, 74, 78);
-    --color-card-shadow: rgba(255, 255, 255, 0.1);
+    --color-card-shadow1: rgba(230, 230, 230, 0.1);
+    --color-card-shadow2: rgba(214, 214, 214, 0.1);
+    --color-card-border: rgba(0, 0, 0, 0.1);
     --color-notfound-bar: rgba(255, 255, 255, 0.3);
+    --color-sidebar: rgba(255, 255, 255, 0.4);
+    --color-sidebar-text: #ACACAC;
+
   }
 
   body {
