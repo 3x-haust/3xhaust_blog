@@ -9,11 +9,17 @@ const BlogCard = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 20px 0 var(--color-card-shadow);
-  }
+  background-color: var(--color-card-background);
+  box-shadow: 15px 15px 30px var(--color-card-shadow1),
+              -15px -15px 30px var(--color-card-shadow2);
+  transition: border-radius cubic-bezier(0.075, 0.82, 0.165, 1) 1s,
+              transform cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
   user-select: none;
+  &:hover {
+    border-bottom-right-radius: 50px;
+    border-top-left-radius: 50px;
+    transform: scale(1.05);
+  }
 
   ${media.large} {
     width: calc(50% - 2rem);
@@ -44,14 +50,15 @@ const StyledImage = styled(Image)`
   width: 100%;
   height: auto;
   object-fit: cover;
-  border-radius: 10px
 `;
 
 const Content = styled.div`
+  padding: 0 0 0 1rem;
   display: flex;
   flex-direction: column;
   align-items: start;
   -webkit-box-align: start;
+  color: var(--color-card-text);
 `;
 
 const StyledDate = styled.p`
