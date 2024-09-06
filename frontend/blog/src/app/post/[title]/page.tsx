@@ -26,7 +26,7 @@ interface Post {
 
 async function getPost(title: string): Promise<Post | null> {
   try {
-    const res = await axios.get(`http://localhost:8000/api/posts/title/${title.replace(/-/g, ' ')}?key=` + process.env.KEY);
+    const res = await axios.get(`http://3xhaust.mcv.kr:8000/api/posts/title/${title.replace(/-/g, ' ')}?key=` + process.env.KEY);
     if (res.status !== 200) return null;
         
     return res.data.data;
@@ -135,6 +135,7 @@ export default function PostPage({ params }: { params: { title: string } }) {
     });
 
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       Object.values(headingRefs.current).forEach((ref) => {
         if (ref) observer.unobserve(ref);
       });

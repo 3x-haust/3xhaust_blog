@@ -6,6 +6,9 @@ import media from '../lib/styles/Media';
 import axios from 'axios';
 import Card from '../components/post/Card';
 import SkeletonCard from '../components/post/SkeletonCard';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const BlogSection = styled.section`
   display: flex;
@@ -44,7 +47,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/posts?key=' + process.env.KEY)
+    axios.get('http://3xhaust.mcv.kr:8000/api/posts?key=' + process.env.KEY)
       .then((response) => {
         setPosts(response.data.data);
       })
