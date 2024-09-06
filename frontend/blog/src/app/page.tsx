@@ -44,7 +44,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/posts')
+    axios.get('http://localhost:8000/api/posts?key=' + process.env.KEY)
       .then((response) => {
         setPosts(response.data.data);
       })
