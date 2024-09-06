@@ -163,17 +163,17 @@ export default function PostPage({ params }: { params: { title: string } }) {
           <ReactMarkdown rehypePlugins={[rehypeHighlight, rehypeRaw, remarkGfm]}
             components={{
               h1: ({ node, ...props }) => (
-                <h1 id={`heading-${node.position?.start.offset}`} ref={(el) => (headingRefs.current[`heading-${node.position?.start.offset}`] = el)} {...props} />
+                <h1 id={`heading-${node?.position?.start.offset}`} ref={(el: any) => (headingRefs.current[`heading-${node?.position?.start.offset}`] = el)} {...props} />
               ),
               h2: ({ node, ...props }) => (
-                <h2 id={`heading-${node.position?.start.offset}`} ref={(el) => (headingRefs.current[`heading-${node.position?.start.offset}`] = el)} {...props} />
+                <h2 id={`heading-${node?.position?.start.offset}`} ref={(el: any) => (headingRefs.current[`heading-${node?.position?.start.offset}`] = el)} {...props} />
               ),
               h3: ({ node, ...props }) => (
-                <h3 id={`heading-${node.position?.start.offset}`} ref={(el) => (headingRefs.current[`heading-${node.position?.start.offset}`] = el)} {...props} />
+                <h3 id={`heading-${node?.position?.start.offset}`} ref={(el: any) => (headingRefs.current[`heading-${node?.position?.start.offset}`] = el)} {...props} />
               ),
 
               h4: ({ node, ...props }) => (
-                <h4 id={`heading-${node.position?.start.offset}`} ref={(el) => (headingRefs.current[`heading-${node.position?.start.offset}`] = el)} {...props} />
+                <h4 id={`heading-${node?.position?.start.offset}`} ref={(el: any) => (headingRefs.current[`heading-${node?.position?.start.offset}`] = el)} {...props} />
               ),
             }}
           >
