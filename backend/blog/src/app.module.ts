@@ -13,7 +13,6 @@ import { PostsModule } from './posts/posts.module';
       logging: true,
       dropSchema: false,
     }),
-    PostsModule,
   ],
   controllers: [],
   providers: [],
