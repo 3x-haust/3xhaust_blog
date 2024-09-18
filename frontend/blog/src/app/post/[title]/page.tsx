@@ -26,15 +26,11 @@ interface Post {
 
 async function getPost(title: string): Promise<Post | null> {
   try {
-    const res = await axios.get(`https://api.3xhaust.dev/api/posts/title/${title.replace(/-/g, ' ')}`, {
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_KEY}`
-      }
-    });
-
+    const res = await axios.get(`/api/posts/${title.replace(/ /g, '-')}`);
+    
     if (res.status !== 200) return null;
-      
-    return res.data.data;
+
+    return res.data;
   } catch (error) {
     console.error('Error fetching post:', error);
     return null;
