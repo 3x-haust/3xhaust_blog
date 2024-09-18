@@ -43,7 +43,7 @@ export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    axios.get('http://api.3xhaust.dev:8000/api/posts?key=' + process.env.NEXT_PUBLIC_KEY)      
+    axios.get('http://api.3xhaust.dev/api/posts?key=' + process.env.NEXT_PUBLIC_KEY)      
     .then((response) => {
         setPosts(response.data.data);
       })

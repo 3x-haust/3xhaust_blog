@@ -26,7 +26,7 @@ interface Post {
 
 async function getPost(title: string): Promise<Post | null> {
   try {
-    const res = await axios.get(`http://api.3xhaust.dev:8000/api/posts/title/${title.replace(/-/g, ' ')}?key=` + process.env.NEXT_PUBLIC_KEY);
+    const res = await axios.get(`http://api.3xhaust.dev/api/posts/title/${title.replace(/-/g, ' ')}?key=` + process.env.NEXT_PUBLIC_KEY);
     if (res.status !== 200) return null;
       
     return res.data.data;
