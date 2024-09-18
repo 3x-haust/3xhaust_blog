@@ -43,16 +43,20 @@ export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    axios.get('http://api.3xhaust.dev/api/posts?key=' + process.env.NEXT_PUBLIC_KEY)      
+    axios.get('https://api.3xhaust.dev/api/posts', {
+      headers: {
+        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_KEY}`
+      }
+    })
     .then((response) => {
-        setPosts(response.data.data);
-      })
+      setPosts(response.data.data);
+    })
       .catch((error) => {
-        console.error("Error fetching data:", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      console.error("Error fetching data:", error);
+    })
+    .finally(() => {
+      setLoading(false);
+    });
   }, []);
 
   return (

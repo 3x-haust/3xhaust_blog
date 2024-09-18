@@ -8,8 +8,21 @@ import {
 @Injectable()
 export class ApiKeyMiddleware implements NestMiddleware {
   use(req: any, res: any, next: () => void) {
-    const apiKey = req.query.key;
+    const authHeader = req.headers['authorization'];
     const validApiKey = process.env.KEY;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNAUTHORIZED,
+          timestamp: new Date().toISOString(),
+          message: 'Unauthorized',
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    const apiKey = authHeader.split(' ')[1];
 
     if (apiKey !== validApiKey) {
       throw new HttpException(
@@ -21,6 +34,7 @@ export class ApiKeyMiddleware implements NestMiddleware {
         HttpStatus.UNAUTHORIZED,
       );
     }
+
     next();
   }
 }
