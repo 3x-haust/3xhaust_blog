@@ -96,16 +96,18 @@ export default function PostContent({ post, headingRefs }: PostContentProps) {
   return (
     <>
       <Title>{post.title}</Title>
-      <Thumbnail>
-        <StyledImage
-          width={100}
-          height={100}
-          src={`/images/${post.imageUrl}`}
-          alt={post.title}
-          placeholder='blur'
-          blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='
-        />
-      </Thumbnail>
+      {post.imageUrl && (
+        <Thumbnail>
+          <StyledImage
+            width={100}
+            height={100}
+            src={`/images/${post.imageUrl}`}
+            alt={post.title}
+            placeholder='blur'
+            blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='
+          />
+        </Thumbnail>
+      )}
       <Content>
         <ReactMarkdown
           rehypePlugins={[rehypeHighlight, rehypeRaw]}
