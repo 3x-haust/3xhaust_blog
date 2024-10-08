@@ -20,7 +20,7 @@ const SidebarContainer = styled.div`
   border-left: 2px solid var(--color-sidebar);
   overflow-y: auto;
 
-  ${media.medium} {
+  ${media.large} {
     display: none;
   }
 `;
