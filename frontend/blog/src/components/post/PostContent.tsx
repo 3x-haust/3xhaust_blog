@@ -44,6 +44,7 @@ const CodeBlock = styled.pre`
   margin: 1.5em 0;
   overflow: auto;
   position: relative;
+  z-index: 500;
 `;
 
 const CodeBlockHeader = styled.div`

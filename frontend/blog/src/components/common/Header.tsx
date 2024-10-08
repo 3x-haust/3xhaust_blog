@@ -20,7 +20,7 @@ const Nav = styled.nav`
   right: 0;
   background-color: rgba(var(--color-background), 0.8);
   backdrop-filter: blur(10px);
-  z-index: 10px;
+  z-index: 1000;
 `;
 
 const NavMenu = styled.ul`
@@ -55,13 +55,6 @@ const Logo = styled.h1`
 
 export default function Header() {
   const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   return (
     <Nav>
