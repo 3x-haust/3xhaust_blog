@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
@@ -42,21 +42,42 @@ const CodeBlock = styled.pre`
   font-size: 14px;
   line-height: 1.5;
   margin: 1.5em 0;
-  padding: 1em;
   overflow: auto;
   position: relative;
 `;
 
+const CodeBlockHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2d2d2d;
+  padding: 0.5rem 1rem;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+`;
+
 const LanguageTag = styled.span`
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 2px 8px;
   font-size: 12px;
   color: #ffffff;
-  background-color: #333333;
-  border-bottom-left-radius: 4px;
   text-transform: uppercase;
+`;
+
+const CopyButton = styled.button`
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 15px;
+  cursor: pointer;
+
+  &:hover {
+    color: #bbbbbb;
+  }
+
+  svg {
+    margin-right: 5px;
+  }
 `;
 
 interface PostContentProps {
@@ -64,33 +85,65 @@ interface PostContentProps {
   headingRefs: React.MutableRefObject<{ [key: string]: HTMLElement | null }>;
 }
 
+interface CodeProps {
+  node?: any;
+  inline?: boolean;
+  className?: string;
+  children?: React.ReactNode;
+}
+
 export default function PostContent({ post, headingRefs }: PostContentProps) {
+  const [copiedIndex, setCopiedIndex] = useState<string | null>(null);
+
+  const copyToClipboard = (text: string, index: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000);
+    });
+  };
+
   const components: Components = {
     h1: ({ node, ...props }) => (
-      <h1 id={`heading-${(node as any)?.position?.start.offset}`} ref={(el) => { headingRefs.current[`heading-${(node as any)?.position?.start.offset}`] = el; }} {...props} />
+      <h1 id={`heading-${node?.position?.start.offset}`} ref={(el) => { headingRefs.current[`heading-${node?.position?.start.offset}`] = el; }} {...props} />
     ),
     h2: ({ node, ...props }) => (
-      <h2 id={`heading-${(node as any)?.position?.start.offset}`} ref={(el) => { headingRefs.current[`heading-${(node as any)?.position?.start.offset}`] = el; }} {...props} />
+      <h2 id={`heading-${node?.position?.start.offset}`} ref={(el) => { headingRefs.current[`heading-${node?.position?.start.offset}`] = el; }} {...props} />
     ),
     h3: ({ node, ...props }) => (
-      <h3 id={`heading-${(node as any)?.position?.start.offset}`} ref={(el) => { headingRefs.current[`heading-${(node as any)?.position?.start.offset}`] = el; }} {...props} />
+      <h3 id={`heading-${node?.position?.start.offset}`} ref={(el) => { headingRefs.current[`heading-${node?.position?.start.offset}`] = el; }} {...props} />
     ),
     h4: ({ node, ...props }) => (
-      <h4 id={`heading-${(node as any)?.position?.start.offset}`} ref={(el) => { headingRefs.current[`heading-${(node as any)?.position?.start.offset}`] = el; }} {...props} />
+      <h4 id={`heading-${node?.position?.start.offset}`} ref={(el) => { headingRefs.current[`heading-${node?.position?.start.offset}`] = el; }} {...props} />
     ),
-    code: ({ node, inline, className, children, ...props }: { node?: any, inline?: boolean, className?: string, children?: React.ReactNode }) => {
-      const match = /language-(\w+)/.exec(className || '')
+    code: ({ node, inline, className, children, ...props }: CodeProps) => {
+      const match = /language-(\w+)/.exec(className || '');
+      const codeText = node?.children.map((item: { type: string; value: any; children: { value: any; }[]; }) => {
+          if (item.type === 'text') {
+              return item.value;
+          } else if (item.type === 'element' && item.children) {
+              return item.children.map((child: { value: any; }) => child.value).join('');
+          }
+          return '';
+      }).join('');
+
       return !inline && match ? (
         <CodeBlock className={className} {...props}>
-          <LanguageTag>{match[1]}</LanguageTag>
-          {children}
+          <CodeBlockHeader>
+            <LanguageTag>{match[1]}</LanguageTag>
+            <CopyButton onClick={() => copyToClipboard(codeText, match[1])}>
+              {copiedIndex === match[1] ? '✓ Copied!' : '📋 Copy'}
+            </CopyButton>
+          </CodeBlockHeader>
+          <div style={{padding: '1em'}}>
+            {children}
+          </div>
         </CodeBlock>
       ) : (
         <code className={className} {...props}>
           {children}
         </code>
-      )
-    }
+      );
+    },
   };
 
   return (
