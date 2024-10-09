@@ -34,15 +34,14 @@ const StyledImage = styled(Image)`
   object-fit: cover;
 `;
 
-const CodeBlock = styled.pre`
+const CodeBlock = styled.div`
   background-color: #1e1e1e;
-  color: #d4d4d4;
   border-radius: 4px;
   font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
   font-size: 14px;
   line-height: 1.5;
   margin: 1.5em 0;
-  overflow: auto;
+  overflow: hidden;
   position: relative;
   z-index: 500;
 `;
@@ -53,8 +52,12 @@ const CodeBlockHeader = styled.div`
   align-items: center;
   background-color: #2d2d2d;
   padding: 0.5rem 1rem;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+`;
+
+const CodeContent = styled.pre`
+  margin: 0;
+  padding: 1em;
+  overflow-x: auto;
 `;
 
 const LanguageTag = styled.span`
@@ -128,16 +131,16 @@ export default function PostContent({ post, headingRefs }: PostContentProps) {
       }).join('');
 
       return !inline && match ? (
-        <CodeBlock className={className} {...props}>
+        <CodeBlock>
           <CodeBlockHeader>
             <LanguageTag>{match[1]}</LanguageTag>
             <CopyButton onClick={() => copyToClipboard(codeText, match[1])}>
               {copiedIndex === match[1] ? '✓ Copied!' : '📋 Copy'}
             </CopyButton>
           </CodeBlockHeader>
-          <div style={{padding: '1em'}}>
+          <CodeContent className={className} {...props}>
             {children}
-          </div>
+          </CodeContent>
         </CodeBlock>
       ) : (
         <code className={className} {...props}>
