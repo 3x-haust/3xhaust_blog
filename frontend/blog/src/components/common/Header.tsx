@@ -1,12 +1,9 @@
-'use client';
-
 import { AiOutlineSearch } from "react-icons/ai";
 import { PiSunDimFill } from "react-icons/pi";
 import { TbMoonFilled } from "react-icons/tb";
 import styled from "styled-components";
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
 
 const Nav = styled.nav`
   display: flex;

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import media from '../lib/styles/Media';
 import Card from '../components/post/Card';
@@ -29,15 +29,6 @@ const BlogSection = styled.section`
     margin: 0;
   }
 `;
-
-interface Post {
-  id: string;
-  title: string;
-  description: string;
-  content: string;
-  imageUrl: string;
-  createdAt: Date;
-}
 
 export default function Home() {
   const { posts = [], loading } = usePosts();

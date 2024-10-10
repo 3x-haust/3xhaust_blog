@@ -66,12 +66,13 @@ export default function PostPage({ params }: { params: { title: string } }) {
       { rootMargin: '0px 0px -85% 0px', threshold: 0.1 }
     );
 
-    Object.values(headingRefs.current).forEach((ref) => {
+    const currentRefs = Object.values(headingRefs.current);
+    currentRefs.forEach((ref) => {
       if (ref) observer.observe(ref);
     });
 
     return () => {
-      Object.values(headingRefs.current).forEach((ref) => {
+      currentRefs.forEach((ref) => {
         if (ref) observer.unobserve(ref);
       });
     };
