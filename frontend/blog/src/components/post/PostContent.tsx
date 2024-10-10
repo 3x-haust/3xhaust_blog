@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { Post } from '@/types/post';
 import { Components } from 'react-markdown';
+import CodeBlock from '../code/editor/CodeBlock';
 
 const Content = styled.div`
   font-size: 1.1rem;
@@ -34,56 +35,6 @@ const StyledImage = styled(Image)`
   object-fit: cover;
 `;
 
-const CodeBlock = styled.div`
-  background-color: #1e1e1e;
-  border-radius: 4px;
-  font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  margin: 1.5em 0;
-  overflow: hidden;
-  position: relative;
-  z-index: 500;
-`;
-
-const CodeBlockHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #2d2d2d;
-  padding: 0.5rem 1rem;
-`;
-
-const CodeContent = styled.pre`
-  margin: 0;
-  padding: 1em;
-  overflow-x: auto;
-`;
-
-const LanguageTag = styled.span`
-  font-size: 12px;
-  color: #ffffff;
-  text-transform: uppercase;
-`;
-
-const CopyButton = styled.button`
-  display: flex;
-  align-items: center;
-  background: none;
-  border: none;
-  color: #ffffff;
-  font-size: 15px;
-  cursor: pointer;
-
-  &:hover {
-    color: #bbbbbb;
-  }
-
-  svg {
-    margin-right: 5px;
-  }
-`;
-
 interface PostContentProps {
   post: Post;
   headingRefs: React.MutableRefObject<{ [key: string]: HTMLElement | null }>;
@@ -97,14 +48,7 @@ interface CodeProps {
 }
 
 export default function PostContent({ post, headingRefs }: PostContentProps) {
-  const [copiedIndex, setCopiedIndex] = useState<string | null>(null);
-
-  const copyToClipboard = (text: string, index: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopiedIndex(index);
-      setTimeout(() => setCopiedIndex(null), 2000);
-    });
-  };
+  const isEditable = post.content?.includes('java_editable');
 
   const components: Components = {
     h1: ({ node, ...props }) => (
@@ -121,27 +65,22 @@ export default function PostContent({ post, headingRefs }: PostContentProps) {
     ),
     code: ({ node, inline, className, children, ...props }: CodeProps) => {
       const match = /language-(\w+)/.exec(className || '');
-      const codeText = node?.children.map((item: { type: string; value: any; children: { value: any; }[]; }) => {
-          if (item.type === 'text') {
-              return item.value;
-          } else if (item.type === 'element' && item.children) {
-              return item.children.map((child: { value: any; }) => child.value).join('');
-          }
-          return '';
-      }).join('');
+      const language = match ? match[1] : '';
+      const codeString = node?.children.map((item: { type: string; value: any; children: { value: any; }[]; }) => {
+        if (item.type === 'text') {
+          return item.value;
+        } else if (item.type === 'element' && item.children) {
+          return item.children.map((child: { value: any; }) => child.value).join('');
+        }
+        return '';
+      }).join('');  
 
       return !inline && match ? (
-        <CodeBlock>
-          <CodeBlockHeader>
-            <LanguageTag>{match[1]}</LanguageTag>
-            <CopyButton onClick={() => copyToClipboard(codeText, match[1])}>
-              {copiedIndex === match[1] ? '✓ Copied!' : '📋 Copy'}
-            </CopyButton>
-          </CodeBlockHeader>
-          <CodeContent className={className} {...props}>
-            {children}
-          </CodeContent>
-        </CodeBlock>
+        <CodeBlock 
+          language={language} 
+          value={codeString} 
+          isEditable={isEditable}
+        />
       ) : (
         <code className={className} {...props}>
           {children}
@@ -171,7 +110,7 @@ export default function PostContent({ post, headingRefs }: PostContentProps) {
           remarkPlugins={[remarkGfm]}
           components={components}
         >
-          {post.content}
+          {post.content.replace(/_editable/g, '').replace(/a_readonly/g, '')}
         </ReactMarkdown>
       </Content>
     </>

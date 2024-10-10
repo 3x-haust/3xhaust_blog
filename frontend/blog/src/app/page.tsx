@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import media from '../lib/styles/Media';
-import axios from 'axios';
 import Card from '../components/post/Card';
 import SkeletonCard from '../components/post/SkeletonCard';
+import { usePosts } from '@/hooks/usePost';
 
 const BlogSection = styled.section`
   display: flex;
@@ -40,20 +40,7 @@ interface Post {
 }
 
 export default function Home() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    axios.get('api/posts')
-    .then((response) => {
-      setPosts(response.data.data);
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-    })
-    .finally(() => {
-      setLoading(false);
-    });
-  }, []);
+  const { posts = [], loading } = usePosts();
 
   return (
     <BlogSection>
@@ -64,7 +51,7 @@ export default function Home() {
           ))}
         </>
       ) : (
-        posts.map((post, index) => (
+        (posts ?? []).map((post, index) => (
           <Card key={index} post={post} index={index} />
         ))
       )}

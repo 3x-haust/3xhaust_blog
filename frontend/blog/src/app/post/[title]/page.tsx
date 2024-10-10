@@ -8,7 +8,7 @@ import media from "@/lib/styles/Media";
 import Sidebar from "@/components/post/SideBar";
 import Comments from "@/components/post/Comments";
 import PostContent from "@/components/post/PostContent";
-import { usePost } from "@/hooks/usePost";
+import { usePostByTitle } from "@/hooks/usePost";
 import "highlight.js/styles/atom-one-dark.css";
 
 const PostContentBlock = styled.section`
@@ -27,7 +27,7 @@ const PostContentBlock = styled.section`
 `;
 
 export default function PostPage({ params }: { params: { title: string } }) {
-  const { post, loading } = usePost(params.title);
+  const { post, loading } = usePostByTitle(params.title);
   const [headings, setHeadings] = useState<{ id: string; level: number; text: string }[]>([]);
   const headingRefs = useRef<{ [key: string]: HTMLElement | null }>({});
 
