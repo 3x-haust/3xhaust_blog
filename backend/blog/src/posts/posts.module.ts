@@ -1,9 +1,8 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { PostsService } from './posts.service';
-import { PostsController } from './posts.controller';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Post } from './entities/post.entity';
-import { ApiKeyMiddleware } from './api-key.middleware';
+import { PostsController } from './posts.controller';
+import { PostsService } from './posts.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Post])],
@@ -11,7 +10,7 @@ import { ApiKeyMiddleware } from './api-key.middleware';
   providers: [PostsService],
 })
 export class PostsModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ApiKeyMiddleware).forRoutes('*');
-  }
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer.apply(ApiKeyMiddleware).forRoutes('*');
+  // }
 }

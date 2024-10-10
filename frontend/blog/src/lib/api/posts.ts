@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Post } from '@/types/post';
 
-const API_URL = 'api';
+const API_URL = 'https://api.3xhaust.dev/api';
 
 export async function getPosts(): Promise<Post[]> {
   try {
