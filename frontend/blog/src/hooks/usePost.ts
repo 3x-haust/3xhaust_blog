@@ -41,7 +41,7 @@ export function usePosts() {
     }
 
     fetchPost();
-  });
+  }, []);
 
   return { posts, loading };
 }
