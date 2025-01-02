@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  blog-frontend:
+    image: blog
+    build:
+      context: frontend/blog
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 2053:2053
+
+  blog-backend:
+    image: blog
+    build:
+      context: backend/blog
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 2083:2083
